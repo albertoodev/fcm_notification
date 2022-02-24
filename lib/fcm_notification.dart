@@ -9,13 +9,14 @@ part 'local_notification/local-notification-service.dart';
 
 class FcmNotifications {
   static late final String _fcmKey;
-
+  static late final String _channelId;
   static void initialize({
     required String fcmKey,
     required String channelId,
     required String channelName,
   }) {
     _fcmKey = fcmKey;
+    _channelId = channelId;
     LocalNotificationsService.initialize(
         channelId: channelId, channelName: channelName);
   }
@@ -46,6 +47,8 @@ class FcmNotifications {
         'notification': {
           'title': title,
           'body': body,
+          'android_channel_id':_channelId,
+          'sound':'default',
         },
       }),
     );
