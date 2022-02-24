@@ -39,6 +39,8 @@ contribute to the package, how to file issues, what response they can expect
 from the package authors, and more.
 
 add this in app\main\AndroidManifest.xml
+
+```xml
 <meta-data
     android:name="com.google.firebase.messaging.default_notification_channel_id"
     android:value="channelId"
@@ -48,3 +50,4 @@ add this in app\main\AndroidManifest.xml
      <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
      <category android:name="android.intent.category.DEFAULT"/>
  </intent-filter>
+...
