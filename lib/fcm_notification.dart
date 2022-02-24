@@ -1,7 +1,6 @@
 library fcm_notification;
 
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -21,9 +20,8 @@ class FcmNotifications {
         channelId: channelId, channelName: channelName);
   }
 
-  static showNotification(RemoteMessage message) {
-    // _throw();
-    LocalNotificationsService.show(message);
+  static showNotification(RemoteMessage message,{required OnClick onClick}) {
+    LocalNotificationsService.show(message,onClick);
   }
 
   static Future<void> sendNotification({
@@ -52,6 +50,26 @@ class FcmNotifications {
       }),
     );
   }
+  /// get device fcm token
+  static Future<String?> getToken() async => await FirebaseMessaging.instance.getToken();
 
 
+  static onMessage (Function(RemoteMessage msg) messageFunction){
+    FirebaseMessaging.onMessage.listen((message) {
+      messageFunction(message);
+    });
+  }
+
+  static getInitialMessage (Function(RemoteMessage msg) messageFunction){
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+        messageFunction(message!);
+    });
+  }
+
+
+  static onMessageOpenedApp(Function(RemoteMessage msg) messageFunction){
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      messageFunction(message);
+    });
+  }
 }
