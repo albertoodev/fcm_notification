@@ -22,7 +22,7 @@ class FcmNotifications {
   }
 
   static showNotification(RemoteMessage message) {
-    _throw();
+    // _throw();
     LocalNotificationsService.show(message);
   }
 
@@ -53,10 +53,5 @@ class FcmNotifications {
     );
   }
 
-  static _throw() {
-    if (LocalNotificationsService._channelName == null ||
-        LocalNotificationsService._channelId == null) {
-      throw ('channelName and channelId can not be null');
-    }
-  }
+
 }

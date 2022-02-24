@@ -37,4 +37,10 @@ class LocalNotificationsService {
         message.notification!.body,
         notificationDetails);
   }
+  static _throw() {
+    if (LocalNotificationsService._channelName == null ||
+        LocalNotificationsService._channelId == null) {
+      throw ('channelName and channelId can not be null');
+    }
+  }
 }
