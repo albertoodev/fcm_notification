@@ -25,22 +25,19 @@ add this lines in 'android\app\main\AndroidManifest.xml'
     android:name="com.google.firebase.messaging.default_notification_channel_id"
     android:value="channelId"
     />
+```
 
-...xml
+```xml
 
  <intent-filter>
      <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
      <category android:name="android.intent.category.DEFAULT"/>
  </intent-filter>
-
+```
 ## Usage
 
 TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder. 
-
-```dart
-const like = 'sample';
-```
 
 ## Additional information
 
