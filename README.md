@@ -19,9 +19,19 @@ know whether this package might be useful for them.
 TODO: List what your package can do. Maybe include images, gifs, or videos.
 
 ## Getting started
+add this lines in 'android\app\main\AndroidManifest.xml'
+```xml
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_channel_id"
+    android:value="channelId"
+    />
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+...xml
+
+ <intent-filter>
+     <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
+     <category android:name="android.intent.category.DEFAULT"/>
+ </intent-filter>
 
 ## Usage
 
@@ -38,16 +48,4 @@ TODO: Tell users more about the package: where to find more information, how to
 contribute to the package, how to file issues, what response they can expect 
 from the package authors, and more.
 
-add this in app\main\AndroidManifest.xml
 
-```xml
-<meta-data
-    android:name="com.google.firebase.messaging.default_notification_channel_id"
-    android:value="channelId"
-    />
-
- <intent-filter>
-     <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
-     <category android:name="android.intent.category.DEFAULT"/>
- </intent-filter>
-...
