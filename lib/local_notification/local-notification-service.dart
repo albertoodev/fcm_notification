@@ -33,24 +33,19 @@ class LocalNotificationsService {
 
     final BigPictureStyleInformation bigPictureStyleInformation =
     BigPictureStyleInformation(bigPicture,
-    largeIcon: bigPicture,);
-    // var _showImage;
-    // if(message.notification!.android!.imageUrl != null){
-    //   _showImage = DrawableResourceAndroidBitmap(
-    //     message.notification!.android!.imageUrl!,
-    //   );
-    // }
-    print('image Url ' + message.notification!.android!.imageUrl! + '\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    largeIcon: bigPicture,
+    contentTitle: 'overridden <b>big</b> content title',
+    htmlFormatContentTitle: true,
+    summaryText: 'summary <i>text</i>',
+    htmlFormatSummaryText: true);
+
     NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
         _channelId!,
         _channelName!,
         importance: Importance.max,
         priority: Priority.high,
-        largeIcon:DrawableResourceAndroidBitmap(
-          message.notification!.android!.imageUrl!,
-        ),
-        styleInformation: bigPictureStyleInformation
+        styleInformation: bigPictureStyleInformation,
       ),
     );
     _notificationsPlugin.show(
