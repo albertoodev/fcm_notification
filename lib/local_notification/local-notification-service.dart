@@ -1,7 +1,7 @@
 part of fcm_notification;
 
-typedef OnClick = Function(Map<String, dynamic>);
-
+typedef OnClick = Function(Map<String, dynamic> data);
+typedef MessageFunction = Function(RemoteMessage message);
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
