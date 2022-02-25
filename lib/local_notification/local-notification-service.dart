@@ -1,7 +1,7 @@
 part of fcm_notification;
 
 typedef OnClick = Function(Map<String, dynamic>);
-typedef MessageFunction = Function(RemoteMessage message);
+
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -26,26 +26,14 @@ class LocalNotificationsService {
     });
   }
 
-  static void show(RemoteMessage message, OnClick onClick,) async {
+  static void show(RemoteMessage message, OnClick onClick,) {
     _onClick = onClick;
-    final ByteArrayAndroidBitmap bigPicture = ByteArrayAndroidBitmap(
-    await _getByteArrayFromUrl(message.notification!.android!.imageUrl!,));
-
-    final BigPictureStyleInformation bigPictureStyleInformation =
-    BigPictureStyleInformation(bigPicture,
-    largeIcon: bigPicture,
-    contentTitle: 'overridden <b>big</b> content title',
-    htmlFormatContentTitle: true,
-    summaryText: 'summary <i>text</i>',
-    htmlFormatSummaryText: true);
-
     NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
         _channelId!,
         _channelName!,
         importance: Importance.max,
         priority: Priority.high,
-        styleInformation: bigPictureStyleInformation,
       ),
     );
     _notificationsPlugin.show(
@@ -62,10 +50,5 @@ class LocalNotificationsService {
         LocalNotificationsService._channelId == null) {
       throw ('channelName and channelId can not be null');
     }
-  }
-
-  static Future<Uint8List> _getByteArrayFromUrl(String url) async {
-    final http.Response response = await http.get(Uri.parse(url));
-    return response.bodyBytes;
   }
 }
