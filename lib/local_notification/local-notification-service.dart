@@ -2,6 +2,7 @@ part of fcm_notification;
 
 typedef OnClick = Function(Map<String, dynamic> data);
 typedef MessageFunction = Function(RemoteMessage message);
+
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -26,7 +27,37 @@ class LocalNotificationsService {
     });
   }
 
-  static void show(RemoteMessage message, OnClick onClick,) {
+  static void _showWithImage(RemoteMessage message, OnClick onClick) async {
+    _onClick = onClick;
+    final ByteArrayAndroidBitmap _image =
+        ByteArrayAndroidBitmap(await _getByteArrayFromUrl(
+      message.notification!.android!.imageUrl!,
+    ));
+
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        _channelId!,
+        _channelName!,
+        importance: Importance.max,
+        priority: Priority.high,
+        styleInformation: BigPictureStyleInformation(
+          _image,
+          htmlFormatContentTitle: true,
+          htmlFormatSummaryText: true,
+          hideExpandedLargeIcon: true,
+        ),
+        largeIcon: _image,
+      ),
+    );
+    _notificationsPlugin.show(
+      DateTime.now().microsecond,
+      message.notification!.title!,
+      message.notification!.body!,
+      notificationDetails,
+      payload: jsonEncode(message.data),
+    );
+  }
+  static void _showWithoutImage(RemoteMessage message, OnClick onClick) {
     _onClick = onClick;
     NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
@@ -38,9 +69,9 @@ class LocalNotificationsService {
     );
     _notificationsPlugin.show(
       DateTime.now().microsecond,
-      message.notification!.title,
-      message.notification!.body,
-      notificationDetails,
+       message.notification!.title!,
+      message.notification!.body!,
+  notificationDetails,
       payload: jsonEncode(message.data),
     );
   }
@@ -50,5 +81,10 @@ class LocalNotificationsService {
         LocalNotificationsService._channelId == null) {
       throw ('channelName and channelId can not be null');
     }
+  }
+
+  static Future<Uint8List> _getByteArrayFromUrl(String url) async {
+    final http.Response response = await http.get(Uri.parse(url));
+    return response.bodyBytes;
   }
 }
