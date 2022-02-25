@@ -26,9 +26,15 @@ class LocalNotificationsService {
     });
   }
 
-  static void show(RemoteMessage message, OnClick onClick,) {
+  static void show(RemoteMessage message, OnClick onClick,) async {
     _onClick = onClick;
-    // AndroidBitmap<Object>?  _showImage;
+    final ByteArrayAndroidBitmap bigPicture = ByteArrayAndroidBitmap(
+    await _getByteArrayFromUrl(message.notification!.android!.imageUrl!,));
+
+    final BigPictureStyleInformation bigPictureStyleInformation =
+    BigPictureStyleInformation(bigPicture,
+    largeIcon: bigPicture,);
+    // var _showImage;
     // if(message.notification!.android!.imageUrl != null){
     //   _showImage = DrawableResourceAndroidBitmap(
     //     message.notification!.android!.imageUrl!,
@@ -41,9 +47,10 @@ class LocalNotificationsService {
         _channelName!,
         importance: Importance.max,
         priority: Priority.high,
-        // largeIcon:DrawableResourceAndroidBitmap(
-        //   message.notification!.android!.imageUrl!,
-        // ),
+        largeIcon:DrawableResourceAndroidBitmap(
+          message.notification!.android!.imageUrl!,
+        ),
+        styleInformation: bigPictureStyleInformation
       ),
     );
     _notificationsPlugin.show(
@@ -60,5 +67,10 @@ class LocalNotificationsService {
         LocalNotificationsService._channelId == null) {
       throw ('channelName and channelId can not be null');
     }
+  }
+
+  static Future<Uint8List> _getByteArrayFromUrl(String url) async {
+    final http.Response response = await http.get(Uri.parse(url));
+    return response.bodyBytes;
   }
 }
