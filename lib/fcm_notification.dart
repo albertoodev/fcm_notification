@@ -77,19 +77,21 @@ class FcmNotifications {
   static Future<String?> getToken() async =>
       await FirebaseMessaging.instance.getToken();
 
-  static onMessage(Function(RemoteMessage msg) messageFunction) {
+  static onMessage(MessageFunction messageFunction) {
     FirebaseMessaging.onMessage.listen((message) {
       messageFunction(message);
     });
   }
 
-  static getInitialMessage(Function(RemoteMessage msg) messageFunction) {
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      messageFunction(message!);
+  static getInitialMessage(MessageFunction messageFunction) {
+    FirebaseMessaging.instance.getInitialMessage().then((_message) {
+      if(_message != null) {
+        messageFunction(_message);
+      }
     });
   }
 
-  static onMessageOpenedApp(Function(RemoteMessage msg) messageFunction) {
+  static onMessageOpenedApp(MessageFunction messageFunction) {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       messageFunction(message);
     });

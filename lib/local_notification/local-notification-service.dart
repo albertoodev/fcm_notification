@@ -1,7 +1,7 @@
 part of fcm_notification;
 
 typedef OnClick = Function(Map<String, dynamic>);
-
+typedef MessageFunction = Function(RemoteMessage message);
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -28,19 +28,22 @@ class LocalNotificationsService {
 
   static void show(RemoteMessage message, OnClick onClick,) {
     _onClick = onClick;
-    AndroidBitmap<Object>?  _showImage;
-    if(message.notification!.android!.imageUrl != null){
-      _showImage = DrawableResourceAndroidBitmap(
-        message.notification!.android!.imageUrl!,
-      );
-    }
+    // AndroidBitmap<Object>?  _showImage;
+    // if(message.notification!.android!.imageUrl != null){
+    //   _showImage = DrawableResourceAndroidBitmap(
+    //     message.notification!.android!.imageUrl!,
+    //   );
+    // }
+    print('image Url ' + message.notification!.android!.imageUrl! + '\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
     NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
         _channelId!,
         _channelName!,
         importance: Importance.max,
         priority: Priority.high,
-        largeIcon:_showImage,
+        // largeIcon:DrawableResourceAndroidBitmap(
+        //   message.notification!.android!.imageUrl!,
+        // ),
       ),
     );
     _notificationsPlugin.show(
