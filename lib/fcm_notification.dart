@@ -24,9 +24,9 @@ class FcmNotifications {
   }
 
   static showNotification(RemoteMessage message, {required OnClick onClick}) {
-    if(message.notification!.android!.imageUrl != null) {
+    if (message.notification!.android!.imageUrl != null) {
       LocalNotificationsService._showWithImage(message, onClick);
-    }else{
+    } else {
       LocalNotificationsService._showWithoutImage(message, onClick);
     }
   }
@@ -90,11 +90,14 @@ class FcmNotifications {
 
   static getInitialMessage(MessageFunction messageFunction) {
     FirebaseMessaging.instance.getInitialMessage().then((_message) {
-      if(_message != null) {
+      if (_message != null) {
         messageFunction(_message);
       }
     });
   }
+
+  static void onBackgroundMessage(BackgroundMessageHandler handler) =>
+      FirebaseMessaging.onBackgroundMessage(handler);
 
   static onMessageOpenedApp(MessageFunction messageFunction) {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
